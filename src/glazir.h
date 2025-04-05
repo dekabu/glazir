@@ -9,6 +9,9 @@
 #define GLAZIR_VERSION_PATCH 0
 
 namespace glazir {
+	enum events {
+		EVENT_QUIT
+	};
 
 	typedef struct {
 		unsigned char R, G, B, A;
@@ -18,7 +21,11 @@ namespace glazir {
 	extern color green;
 	extern color blue;
 
-	void log(char* str);
+	struct event {
+		unsigned type;
+	};
+
+	bool getEvent(event& e);
 
 	class window {
 		public:
@@ -35,7 +42,7 @@ namespace glazir {
 				SDL_FRect r = {x, y, w, h};
 				SDL_RenderFillRect(this->rend, &r);
 			}
-			void present()
+			void draw()
 			{
 				SDL_RenderPresent(this->rend);
 			}
