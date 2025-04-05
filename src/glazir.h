@@ -10,6 +10,7 @@
 
 namespace glazir {
 	enum events {
+		EVENT_MOUSEMOVE,
 		EVENT_QUIT
 	};
 
@@ -18,11 +19,24 @@ namespace glazir {
 	} color;
 
 	extern color red;
+	extern color yellow;
 	extern color green;
+	extern color cyan;
 	extern color blue;
+	extern color magenta;
+	extern color white;
+	extern color black;
+
+	struct MouseMoveEvent {
+		float x;
+		float y;
+	};
 
 	struct event {
 		unsigned type;
+		union {
+			MouseMoveEvent motion;
+		} v;
 	};
 
 	bool getEvent(event& e);
@@ -41,6 +55,11 @@ namespace glazir {
 				SDL_SetRenderDrawColor(this->rend, c.R, c.G, c.B, c.A);
 				SDL_FRect r = {x, y, w, h};
 				SDL_RenderFillRect(this->rend, &r);
+			}
+			void clear(color c = black)
+			{
+				SDL_SetRenderDrawColor(this->rend, c.R, c.G, c.B, c.A);
+				SDL_RenderClear(this->rend);
 			}
 			void draw()
 			{
